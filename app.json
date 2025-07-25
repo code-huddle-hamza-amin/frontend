@@ -17,7 +17,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.hamzacodehuddle.budgetnest"
+      "package": "com.budgetnestfrontend"
     },
     "web": {
       "bundler": "metro",

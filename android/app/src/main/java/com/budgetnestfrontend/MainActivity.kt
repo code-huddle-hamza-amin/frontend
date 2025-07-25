@@ -1,4 +1,4 @@
-package com.hamzacodehuddle.budgetnest
+package com.budgetnestfrontend
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

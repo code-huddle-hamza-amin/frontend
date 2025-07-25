@@ -1,4 +1,4 @@
-package com.hamzacodehuddle.budgetnest
+package com.budgetnestfrontend
 
 import android.app.Application
 import android.content.res.Configuration
