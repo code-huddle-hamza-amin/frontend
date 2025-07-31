@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://192.168.18.39:8000';
+export const BASE_URL = 'http://192.168.100.191:8000';
 
 export async function googleAuth({ idToken, serverAuthCode, user, scopes }: {
   idToken: string;
@@ -484,6 +484,113 @@ export async function connectWhatsAppNumber(userId: string, phoneNumber: string)
     return data;
   } catch (error) {
     console.error('Connect WhatsApp Error:', error);
+    throw error;
+  }
+}
+
+// Store Gmail account with refresh token
+export async function storeGmailAccount(gmailAccountData: {
+  acc_id: string;
+  acc_token: string;
+  refresh_token: string;
+  user_id: string;
+}) {
+  try {
+    console.log('Storing Gmail account:', gmailAccountData);
+    const res = await fetch(`${BASE_URL}/gmail/store-account`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(gmailAccountData)
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Store Gmail Account Error:', errorText);
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
+    }
+    
+    const data = await res.json();
+    console.log('Gmail account stored:', data);
+    return data;
+  } catch (error) {
+    console.error('Store Gmail Account Error:', error);
+    throw error;
+  }
+}
+
+// Get connected Gmail accounts for a user
+export async function getConnectedGmailAccounts(userId: string) {
+  try {
+    console.log('Getting connected Gmail accounts for user:', userId);
+    const res = await fetch(`${BASE_URL}/gmail/connected-accounts?user_id=${encodeURIComponent(userId)}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Get Gmail Accounts Error:', errorText);
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
+    }
+    
+    const data = await res.json();
+    console.log('Gmail accounts retrieved:', data);
+    return data;
+  } catch (error) {
+    console.error('Get Gmail Accounts Error:', error);
+    throw error;
+  }
+}
+
+// Update Gmail account tokens
+export async function updateGmailAccountTokens(accId: string, accToken: string, refreshToken: string) {
+  try {
+    console.log('Updating Gmail account tokens for:', accId);
+    const res = await fetch(`${BASE_URL}/gmail/update-tokens`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        acc_id: accId, 
+        acc_token: accToken, 
+        refresh_token: refreshToken 
+      })
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Update Gmail Tokens Error:', errorText);
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
+    }
+    
+    const data = await res.json();
+    console.log('Gmail tokens updated:', data);
+    return data;
+  } catch (error) {
+    console.error('Update Gmail Tokens Error:', error);
+    throw error;
+  }
+}
+
+// Delete Gmail account
+export async function deleteGmailAccount(accId: string) {
+  try {
+    console.log('Deleting Gmail account:', accId);
+    const res = await fetch(`${BASE_URL}/gmail/delete-account?acc_id=${encodeURIComponent(accId)}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Delete Gmail Account Error:', errorText);
+      throw new Error(`HTTP ${res.status}: ${errorText}`);
+    }
+    
+    const data = await res.json();
+    console.log('Gmail account deleted:', data);
+    return data;
+  } catch (error) {
+    console.error('Delete Gmail Account Error:', error);
     throw error;
   }
 }

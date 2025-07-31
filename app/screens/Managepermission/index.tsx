@@ -6,6 +6,7 @@ import WhatsappIcon from '../../../assets/images/connection/whatsapp.svg';
 import EmailIcon from '../../../assets/images/connection/mail.svg';
 import SmsIcon from '../../../assets/images/connection/sms.svg';
 import WhatsAppModal from '../../../components/integration/whatsappmodal';
+import EmailModal from '../../../components/integration/emailmodal';
 
 interface PermissionItem {
   id: string;
@@ -20,6 +21,7 @@ interface PermissionItem {
 export default function ManagePermissionsScreen() {
   const params = useLocalSearchParams();
   const [whatsappModalVisible, setWhatsappModalVisible] = useState(false);
+  const [emailModalVisible, setEmailModalVisible] = useState(false);
   const [userData, setUserData] = useState<any>(null);
   const [permissions, setPermissions] = useState<PermissionItem[]>([
     {
@@ -79,20 +81,7 @@ export default function ManagePermissionsScreen() {
         break;
       
       case '2': // Email
-        Alert.alert(
-          'Email Integration',
-          'This will allow the app to import bank emails and send detailed financial reports.',
-          [
-            { text: 'Cancel', style: 'cancel' },
-            { 
-              text: 'Connect', 
-              onPress: () => {
-                // TODO: Implement Email integration
-                Alert.alert('Success', 'Email integration will be implemented soon!');
-              }
-            }
-          ]
-        );
+        setEmailModalVisible(true);
         break;
       
       case '3': // SMS
@@ -184,6 +173,12 @@ export default function ManagePermissionsScreen() {
       <WhatsAppModal
         visible={whatsappModalVisible}
         onClose={() => setWhatsappModalVisible(false)}
+        userId={userData?.id || "user123"}
+        userEmail={userData?.gmail || ""}
+      />
+      <EmailModal
+        visible={emailModalVisible}
+        onClose={() => setEmailModalVisible(false)}
         userId={userData?.id || "user123"}
         userEmail={userData?.gmail || ""}
       />
